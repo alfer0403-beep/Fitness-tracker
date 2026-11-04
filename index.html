@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Temple – Fitness &amp; Fuel</title>
+<style>
+:root{--bg:#f3f1ec;--card:#fff;--ink:#16202a;--mut:#6b7680;--line:#e4e0d8;--a:#0e8f7e;--b:#ef6a4b;--c:#6b5bd6;--d:#e9a82f;--glow:rgba(14,143,126,.18);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1419;--card:#16202a;--ink:#eef2f4;--mut:#8fa0ab;--line:#24323d;--a:#2fd0b8;--b:#ff8566;--c:#9a8cff;--d:#f5c35a;--glow:rgba(47,208,184,.16);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d1419;--card:#16202a;--ink:#eef2f4;--mut:#8fa0ab;--line:#24323d;--a:#2fd0b8;--b:#ff8566;--c:#9a8cff;--d:#f5c35a;--glow:rgba(47,208,184,.16);color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+html,body{background:var(--bg);color:var(--ink);font-family:"Manrope","Segoe UI",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+.app{max-width:430px;margin:0 auto;padding:16px 16px 110px;min-height:100vh}
+h1{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:26px;letter-spacing:-.4px}
+h2{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:18px;margin:22px 0 10px}
+.mut{color:var(--mut);font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px;margin-bottom:12px;animation:pop .5s cubic-bezier(.2,.9,.3,1.2) both}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--c));display:grid;place-items:center;color:#fff;font-weight:700;animation:float 4s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-3px)}}
+.verse{background:linear-gradient(135deg,var(--a),var(--c));color:#fff;border:0;position:relative;overflow:hidden}
+.verse:after{content:"";position:absolute;inset:-40%;background:conic-gradient(from 0deg,transparent,rgba(255,255,255,.18),transparent 30%);animation:spin 9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.verse>*{position:relative;z-index:1}
+.verse p{font-family:"Fraunces",Georgia,serif;font-size:17px;line-height:1.4;transition:opacity .5s}
+.verse small{opacity:.85;font-weight:700;display:block;margin-top:8px}
+.rings{display:flex;justify-content:space-around;align-items:center;gap:6px}
+.ring{position:relative;text-align:center}
+.ring svg.r{transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-linecap:round}
+.ring .tr{stroke:var(--line)}
+.ring .pg{transition:stroke-dashoffset 1.6s cubic-bezier(.3,.8,.2,1)}
+.ring .in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring b{font-size:19px}
+.ring span{font-size:11px;color:var(--mut)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mini{display:flex;flex-direction:column;gap:6px}
+.mini .ic{width:34px;height:34px;border-radius:12px;display:grid;place-items:center}
+.ic svg,.ico svg{width:20px;height:20px}
+.big{font-size:26px;font-weight:800;letter-spacing:-.5px}
+.heart{animation:beat 1s ease-in-out infinite;transform-origin:center}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.25)}30%{transform:scale(1)}45%{transform:scale(1.18)}}
+.bar{height:10px;border-radius:6px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;width:0;border-radius:6px;transition:width 1.4s cubic-bezier(.3,.8,.2,1)}
+.stages{display:flex;gap:3px;height:44px;align-items:flex-end}
+.stages i{flex:1;border-radius:5px;height:0;transition:height 1s cubic-bezier(.3,.8,.2,1)}
+.btn{border:0;border-radius:16px;padding:14px 18px;font:700 15px inherit;font-family:inherit;color:#fff;background:linear-gradient(135deg,var(--a),var(--c));width:100%;cursor:pointer;display:flex;gap:8px;align-items:center;justify-content:center;transition:transform .15s}
+.btn:active{transform:scale(.96)}
+.btn svg{width:20px;height:20px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:30px;padding:8px 14px;font:600 13px inherit;font-family:inherit;cursor:pointer;transition:all .2s}
+.chip.on{background:var(--a);border-color:var(--a);color:#fff;transform:scale(1.05)}
+.meal{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line);animation:pop .4s both}
+.meal:first-of-type{border:0}
+.ico{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;flex:none}
+.meal div:nth-child(2){flex:1}
+nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom,0px));width:min(398px,calc(100% - 24px));background:var(--card);border:1px solid var(--line);border-radius:26px;display:flex;justify-content:space-around;padding:8px;box-shadow:0 10px 30px rgba(0,0,0,.15);z-index:5}
+nav button{background:none;border:0;color:var(--mut);display:flex;flex-direction:column;align-items:center;gap:3px;font:700 10px inherit;font-family:inherit;padding:8px 10px;border-radius:18px;cursor:pointer;transition:all .25s}
+nav button svg{width:22px;height:22px;transition:transform .3s}
+nav button.on{color:var(--a);background:var(--glow)}
+nav button.on svg{transform:translateY(-2px) scale(1.15)}
+.tip{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
+.tip:first-of-type{border:0}
+.draw{stroke-dasharray:1;stroke-dashoffset:1;animation:dr 2s .2s forwards}
+@keyframes dr{to{stroke-dashoffset:0}}
+.ov{position:fixed;inset:0;background:rgba(5,10,14,.88);z-index:20;display:grid;place-items:center;padding:20px}
+.cam{width:min(320px,100%);aspect-ratio:3/4;border-radius:26px;background:radial-gradient(circle at 50% 45%,#d89a4a,#7a4a1c 45%,#2a1a0c);position:relative;overflow:hidden;color:#fff}
+.cam .plate{position:absolute;left:14%;top:24%;width:72%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#f4efe4 60%,#cfc6b4);display:grid;place-items:center;font-size:70px}
+.scan{position:absolute;left:0;right:0;height:4px;background:var(--a);box-shadow:0 0 22px 6px var(--a);animation:sc 1.6s ease-in-out infinite alternate}
+@keyframes sc{from{top:8%}to{top:92%}}
+.res{background:var(--card);color:var(--ink);border-radius:22px;padding:16px;width:min(320px,100%);animation:pop .4s both;margin-top:12px}
+.corner{position:absolute;width:30px;height:30px;border:3px solid #fff;opacity:.9}
+.hide{display:none}
+nav button{padding:8px 7px;font-size:9.5px}
+.dot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--line);color:var(--mut);font-size:12px;font-weight:800;transition:all .4s}
+.dot.on{background:var(--a);color:#fff;transform:scale(1.1)}
+.pray{border-left:4px solid var(--c);padding:6px 12px;margin:12px 0;font-style:italic;font-size:14px;line-height:1.45}
+.amen{animation:burst .6s}
+@keyframes burst{40%{transform:scale(1.07)}}
+.av{cursor:pointer;border:0;font:800 16px inherit;font-family:inherit}
+.sheet{background:var(--card);border-radius:28px 28px 0 0;width:min(430px,100%);max-height:88vh;overflow:auto;padding:18px 18px calc(24px + env(safe-area-inset-bottom,0px));animation:up .4s cubic-bezier(.2,.9,.3,1) both;color:var(--ink)}
+@keyframes up{from{transform:translateY(100%)}}
+.ov.s{place-items:end center;padding:0}
+.stage{background:linear-gradient(180deg,var(--glow),transparent);border-radius:20px;margin:10px 0}
+.fig path{fill:none;stroke:var(--ink);stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.fig circle.h{fill:var(--ink)}
+.mc{display:flex;gap:12px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:20px;margin-bottom:10px;background:var(--card);cursor:pointer;animation:pop .4s both}
+.fig-s{width:92px;flex:none;background:var(--glow);border-radius:14px}
+.tag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--glow);color:var(--a);display:inline-block}
+.set{width:48px;height:48px;border-radius:50%;border:2px solid var(--line);background:none;color:var(--ink);font:800 15px inherit;font-family:inherit;cursor:pointer;transition:all .3s}
+.set.on{background:var(--a);border-color:var(--a);color:#fff;transform:scale(1.12) rotate(360deg)}
+input.nm{border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:14px;padding:12px;font:700 15px inherit;font-family:inherit;flex:1;min-width:0}
+.toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:30px;font-weight:700;font-size:14px;z-index:30;animation:pop .3s both}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<nav id="nav"></nav>
+<script>
+var P={home:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',fuel:'<path d="M5 3v8a3 3 0 0 0 3 3v7M8 3v6M11 3v8a3 3 0 0 1-3 3M17 21V3c-2 2-3 5-3 8s1 4 3 4"/>',body:'<path d="M3 17l5-5 4 4 8-9"/><path d="M15 7h5v5"/>',train:'<path d="M6 7v10M18 7v10M3 9v6M21 9v6M6 12h12"/>',ai:'<path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path d="M19 16l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>',foot:'<path d="M8 3c2 0 3 2 3 5s-1 4-1 7H6c-1-3-2-5-2-8s2-4 4-4zM16 9c2 0 4 1 4 4s-1 5-2 8h-4c0-3-1-4-1-6s1-6 3-6z"/>',bolt:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',heart:'<path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.5A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z"/>',moon:'<path d="M20 14A8 8 0 0 1 10 4a8 8 0 1 0 10 10z"/>',drop:'<path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/>',cam:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',flame:'<path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3 0-6 1-9z"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>',plus:'<path d="M12 5v14M5 12h14"/>',target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/>',users:'<circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-4 3-6 7-6s7 2 7 6M16 4a3.5 3.5 0 0 1 0 7M22 20c0-3-2-5-4-5.5"/>',book:'<path d="M4 4h7a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4zM20 4h-7v16a2 2 0 0 1 2-2h5z"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/>'};
+function ic(n,col){return '<svg viewBox="0 0 24 24" fill="none" stroke="'+(col||'currentColor')+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+P[n]+'</svg>'}
+function chipIc(n,v){return '<div class="ic ico" style="background:color-mix(in srgb,var(--'+v+') 16%,transparent);color:var(--'+v+')">'+ic(n)+'</div>'}
+var V=[["I can do all things through Christ which strengtheneth me.","Philippians 4:13"],["What? know ye not that your body is the temple of the Holy Ghost?","1 Corinthians 6:19"],["They that wait upon the Lord shall renew their strength; they shall run, and not be weary.","Isaiah 40:31"],["Let us not be weary in well doing: for in due season we shall reap, if we faint not.","Galatians 6:9"],["Whatsoever ye do, do it heartily, as to the Lord.","Colossians 3:23"],["I have fought a good fight, I have finished my course, I have kept the faith.","2 Timothy 4:7"]];
+var S={tab:'home',cal:1240,goal:1800,pro:92,carb:140,fat:38,water:5,meals:[['Greek yogurt &amp; berries','8:05 am',280,'sun','d'],['Turkey wrap','12:30 pm',420,'fuel','a'],['Almonds &amp; apple','3:15 pm',190,'flame','b'],['Salmon &amp; greens','6:40 pm',350,'fuel','c']],eq:['Dumbbells','Walking'],vi:0,u:0,mf:'All',mine:false};
+var PR=[{n:'Him',steps:7824,burn:2140,act:38,hr:68,sl:'7h 12m',sc:86,rd:82,w:[212,209,207,204,202,199,197,194,192,190],g:170,rate:1.2,col:'linear-gradient(135deg,var(--a),var(--c))',dev:'Fitbit Air'},{n:'Her',steps:9310,burn:1780,act:46,hr:64,sl:'7h 41m',sc:91,rd:88,w:[168,167,165.5,164.5,163,162,160.5,159.5,158,157],g:145,rate:1,col:'linear-gradient(135deg,var(--b),var(--d))',dev:'Charge 6'}];
+var ST=[null,{cal:980,goal:1500,pro:74,carb:105,fat:30,water:6,meals:[['Oatmeal &amp; banana','7:50 am',260,'sun','d'],['Chicken salad','12:15 pm',380,'fuel','a'],['Hummus &amp; veggies','3:00 pm',150,'flame','b'],['Baked cod &amp; rice','6:30 pm',190,'fuel','c']]}];
+function U(){return PR[S.u]}
+function ini(n){return (n.trim().charAt(0)||'?').toUpperCase()}
+function sw(i){var k=['cal','goal','pro','carb','fat','water','meals'],o={};k.forEach(function(x){o[x]=S[x]});ST[S.u]=o;var n=ST[i];k.forEach(function(x){S[x]=n[x]});S.u=i}
+var TABS=[['home','Today'],['fuel','Fuel'],['body','Body'],['train','Train'],['ai','Coach'],['faith','Faith']];
+function ring(id,p,col,val,lab,sz,ico){var r=(sz-14)/2,c=2*Math.PI*r;return '<div class="ring" style="width:'+sz+'px;height:'+sz+'px"><svg class="r" width="'+sz+'" height="'+sz+'"><circle class="tr" cx="'+sz/2+'" cy="'+sz/2+'" r="'+r+'" stroke-width="10"/><circle class="pg" data-p="'+p+'" data-c="'+c+'" cx="'+sz/2+'" cy="'+sz/2+'" r="'+r+'" stroke-width="10" stroke="'+col+'" stroke-dasharray="'+c+'" stroke-dashoffset="'+c+'"/></svg><div class="in"><b data-n="'+val+'">0</b><span>'+lab+'</span></div></div>'}
+function head(t,s){return '<div class="top"><div><h1>'+t+'</h1><div class="mut">'+s+'</div></div><button class="av" id="pf" aria-label="Switch profile" style="background:'+U().col+'">'+ini(U().n)+'</button></div>'}
+function home(){var v=V[S.vi];return head('Good morning',U().n+' · synced from '+U().dev+' · 2 min ago')+
+'<div class="card verse"><p id="vp">“'+v[0]+'”</p><small id="vr">'+v[1]+'</small></div>'+
+'<div class="card"><div class="rings">'+ring('a',U().steps/10000,'var(--a)',U().steps,'steps',112)+ring('b',U().burn/3000,'var(--b)',U().burn,'burned kcal',112)+ring('c',U().act/45,'var(--c)',U().act,'active min',112)+'</div></div>'+
+'<div class="row"><div class="card mini">'+chipIc('heart','b').replace('class="ic ico"','class="ic ico heart"')+'<span class="mut">Heart rate</span><div class="big"><span data-n="'+U().hr+'">0</span><small class="mut"> bpm</small></div><span class="mut">Resting · down 3 this month</span></div>'+
+'<div class="card mini">'+chipIc('moon','c')+'<span class="mut">Sleep</span><div class="big">'+U().sl+'</div><span class="mut">Score '+U().sc+' · Restored</span></div></div>'+
+'<div class="card"><div style="display:flex;justify-content:space-between;margin-bottom:10px"><b>Readiness</b><b style="color:var(--a)">'+U().rd+' / 100</b></div><div class="bar"><i data-w="'+U().rd+'" style="background:linear-gradient(90deg,var(--a),var(--d))"></i></div><p class="mut" style="margin-top:10px">Good day for a moderate strength session.</p></div>'+
+'<div class="card"><div style="display:flex;justify-content:space-between;margin-bottom:10px"><b>Water</b><span class="mut" id="wl">'+S.water+' of 8 glasses</span></div><div class="chips" id="water">'+[1,2,3,4,5,6,7,8].map(function(i){return '<button class="chip'+(i<=S.water?' on':'')+'" data-w="'+i+'">'+ic('drop')+'</button>'}).join('')+'</div></div>'}
+function fuel(){var left=S.goal-S.cal,m=[['Protein',S.pro,140,'var(--b)'],['Carbs',S.carb,200,'var(--d)'],['Fat',S.fat,60,'var(--c)']];
+return head('Fuel','Eat well, finish strong')+
+'<div class="card" style="display:flex;align-items:center;gap:16px">'+ring('f',S.cal/S.goal,'var(--a)',left,'kcal left',130)+'<div style="flex:1"><div class="mut">Eaten</div><div class="big"><span data-n="'+S.cal+'">0</span></div><div class="mut">Goal '+S.goal+' · Burn '+U().burn.toLocaleString()+'</div></div></div>'+
+'<div class="card">'+m.map(function(x){return '<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:13px"><b>'+x[0]+'</b><span class="mut">'+x[1]+' / '+x[2]+' g</span></div><div class="bar" style="margin-top:6px"><i data-w="'+Math.min(100,x[1]/x[2]*100)+'" style="background:'+x[3]+'"></i></div></div>'}).join('')+'</div>'+
+'<button class="btn" id="scanBtn">'+ic('cam')+'Scan a meal with Lens</button><p class="mut" style="text-align:center;margin:8px 0 0">or type, search, or scan a barcode</p>'+
+'<h2>Today’s meals</h2><div class="card">'+S.meals.map(function(x){return '<div class="meal">'+chipIc(x[3],x[4])+'<div><b>'+x[0]+'</b><div class="mut">'+x[1]+'</div></div><b>'+x[2]+'</b></div>'}).join('')+'</div>'}
+function body(){var d=U().w,L=d[d.length-1],G=U().g,w=330,h=140,mn=G-6,mx=d[0]+3;
+function pt(i,v,n){return [(i/(n-1))*w,h-((v-mn)/(mx-mn))*h]}
+var p=d.map(function(v,i){var q=pt(i,v,14);return (i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)}).join(' ');
+var a=pt(9,L,14),z=pt(13,L-4*U().rate,14);
+return head('Body','Weight, trends &amp; goals')+
+'<div class="card"><div style="display:flex;justify-content:space-between"><div><div class="mut">Current</div><div class="big"><span data-n="'+L+'">0</span> lb</div></div><div style="text-align:right"><div class="mut">Down</div><div class="big" style="color:var(--a)">−'+(d[0]-L)+' lb</div></div></div>'+
+'<svg viewBox="-4 -8 '+(w+8)+' '+(h+24)+'" style="width:100%;margin-top:10px"><defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--a)" stop-opacity=".3"/><stop offset="1" stop-color="var(--a)" stop-opacity="0"/></linearGradient></defs><path d="'+p+' L'+a[0]+' '+h+' L0 '+h+'Z" fill="url(#g)"/><path class="draw" pathLength="1" d="'+p+'" fill="none" stroke="var(--a)" stroke-width="3.5" stroke-linecap="round"/><path d="M'+a[0]+' '+a[1]+' L'+z[0]+' '+z[1]+'" stroke="var(--b)" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round" fill="none"/><circle cx="'+a[0]+'" cy="'+a[1]+'" r="6" fill="var(--a)"><animate attributeName="r" values="5;9;5" dur="1.8s" repeatCount="indefinite"/></circle></svg><p class="mut">Projection: about '+Math.round((L-G)/U().rate)+' weeks to your goal at a steady '+U().rate+' lb per week.</p></div>'+
+'<div class="row"><div class="card mini">'+chipIc('target','b')+'<span class="mut">Goal</span><div class="big">'+G+' lb</div></div><div class="card mini">'+chipIc('flame','d')+'<span class="mut">Weekly avg deficit</span><div class="big">540</div></div></div>'+
+'<div class="card"><b>Expanded wellness</b><div style="margin-top:12px">'+[['Body fat','27.4%','down 1.1%','a'],['Waist','36.5 in','down 0.5 in','c'],['Resting HR','68 bpm','down 3','b'],['Stress score','Low','steady','d']].map(function(x){return '<div class="meal">'+chipIc('bolt',x[3])+'<div><b>'+x[0]+'</b><div class="mut">'+x[2]+'</div></div><b>'+x[1]+'</b></div>'}).join('')+'</div></div>'+
+'<button class="btn" id="logW">'+ic('plus')+'Log today’s weigh-in</button>'}
+function train(){var days=[['Mon','Upper strength',45,'a'],['Tue','Zone 2 walk',40,'b'],['Wed','Lower strength',45,'c'],['Thu','Rest &amp; stretch',20,'d'],['Fri','Full body circuit',35,'a']],E=['Dumbbells','Walking','Bands','Treadmill','Bike','Bodyweight','Kettlebell','Gym machines'];
+return head('Train','A plan that adapts to you')+
+'<div class="card"><b>What do you have?</b><div class="chips" style="margin-top:10px" id="eq">'+E.map(function(e){return '<button class="chip'+(S.eq.indexOf(e)>-1?' on':'')+'">'+e+'</button>'}).join('')+'</div></div>'+
+'<h2>This week</h2>'+days.map(function(d,i){return '<div class="card meal" style="animation-delay:'+i*.08+'s;border:1px solid var(--line);padding:14px">'+chipIc('train',d[3])+'<div><b>'+d[1]+'</b><div class="mut">'+d[0]+' · '+d[2]+' min</div></div><span class="mut">'+ic('plus')+'</span></div>'}).join('')+
+'<button class="btn" style="margin-top:4px">'+ic('bolt')+'Start today’s workout</button>'+
+'<h2>Move library</h2>'+lib()}
+function coach(){var st=[['Awake',18,'var(--d)'],['REM',34,'var(--c)'],['Light',70,'var(--a)'],['Deep',48,'var(--b)'],['Light',64,'var(--a)'],['REM',40,'var(--c)'],['Deep',26,'var(--b)'],['Light',52,'var(--a)'],['REM',30,'var(--c)']];
+return head('Coach','Analytics, projections &amp; guidance')+
+'<div class="card"><b>Sleep cycles</b><div class="stages" style="margin-top:12px">'+st.map(function(s){return '<i data-h="'+s[1]+'" style="background:'+s[2]+'"></i>'}).join('')+'</div><p class="mut" style="margin-top:10px">Deep 1h 24m · REM 1h 48m · Light 3h 40m. Consistent bedtime is your best lever.</p></div>'+
+'<div class="card"><b>Weekly report</b><div class="row" style="margin-top:12px"><div><div class="mut">Avg steps</div><div class="big">8.4k</div></div><div><div class="mut">Protein hit</div><div class="big">5 of 7</div></div><div><div class="mut">Active zone min</div><div class="big">162</div></div><div><div class="mut">Sleep avg</div><div class="big">7h 02m</div></div></div></div>'+
+'<div class="card"><b>Your coach says</b><div style="margin-top:10px">'+[['flame','a','Eat 15 g more protein at breakfast. It protects muscle while you lose fat.'],['sun','d','Add a 10-minute walk after dinner. It trims evening blood sugar spikes.'],['moon','c','Aim for lights out by 10:30 pm. Your best readiness follows 7.5 hours.']].map(function(t){return '<div class="tip">'+chipIc(t[0],t[1])+'<div style="font-size:14px;line-height:1.4">'+t[2]+'</div></div>'}).join('')+'</div></div>'+
+'<div class="card"><div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">'+chipIc('users','b')+'<b>Together challenge</b></div><div class="mut" style="margin-bottom:6px">You · 58k steps</div><div class="bar"><i data-w="82" style="background:var(--a)"></i></div><div class="mut" style="margin:10px 0 6px">Her · 61k steps</div><div class="bar"><i data-w="87" style="background:var(--b)"></i></div><p class="mut" style="margin-top:10px">Loser plans Saturday’s walk date.</p></div>'}
+var MV=[{n:'Goblet squat',g:'Legs',gear:['Dumbbells','Kettlebell'],sr:'3 × 10',mu:'Quads, glutes and core',st:['Hold one dumbbell against your chest, feet shoulder-width apart.','Sit your hips back and down while keeping your chest tall.','Press through your heels to stand up.'],mk:'Knees caving inward. Push them out over your toes.',t:1,a:[100,40,100,76,108,58,112,50,102,98,100,120],b:[112,58,86,92,122,70,124,62,118,96,104,120]},
+{n:'Incline push-up',g:'Push',gear:['Bodyweight'],sr:'3 × 12',mu:'Chest, shoulders and triceps',st:['Hands on a counter or bench, body in one straight line.','Lower your chest toward the edge with elbows at 45°.','Press away until your arms are straight.'],mk:'Hips sagging. Squeeze your glutes and brace your abs.',a:[140,58,90,80,140,90,140,118,65,98,40,118],b:[138,94,90,104,120,106,140,118,65,110,40,118]},
+{n:'Bent-over row',g:'Pull',gear:['Dumbbells','Bands'],sr:'3 × 10',mu:'Back, rear shoulders and biceps',st:['Hinge forward with a flat back, weight hanging below your shoulder.','Pull your elbow toward your hip.','Lower slowly over two seconds.'],mk:'Rounding your lower back. Keep your chest proud.',t:1,a:[120,58,80,78,122,100,122,118,84,100,84,120],b:[120,58,80,78,100,76,112,84,84,100,84,120]},
+{n:'Reverse lunge',g:'Legs',gear:['Bodyweight','Dumbbells'],sr:'3 × 8 each',mu:'Quads, glutes and balance',st:['Stand tall with your feet hip-width apart.','Step one foot back and lower until both knees bend about 90°.','Push through your front heel to return.'],mk:'Front knee drifting past your toes. Take a longer step.',a:[100,40,100,76,102,60,102,78,100,100,100,120],b:[104,60,104,88,104,72,106,86,130,102,130,120]},
+{n:'Glute bridge',g:'Glutes',gear:['Bodyweight'],sr:'3 × 15',mu:'Glutes, hamstrings and core',st:['Lie on your back with knees bent and feet flat.','Press through your heels and lift your hips.','Squeeze at the top for one second, then lower.'],mk:'Arching your lower back. Tuck your ribs down.',a:[50,114,95,112,72,115,96,116,125,88,135,118],b:[50,114,98,86,72,115,96,116,128,88,135,118]},
+{n:'Overhead press',g:'Shoulders',gear:['Dumbbells','Bands','Kettlebell'],sr:'3 × 8',mu:'Shoulders, triceps and core',st:['Hold the weights at shoulder height, ribs down.','Press straight overhead until your arms lock out.','Lower with control back to your shoulders.'],mk:'Leaning back. Squeeze your glutes to stay tall.',t:1,a:[100,40,100,76,108,60,110,42,100,100,100,120],b:[100,40,100,76,106,22,106,4,100,100,100,120]},
+{n:'Romanian deadlift',g:'Glutes',gear:['Dumbbells','Kettlebell'],sr:'3 × 10',mu:'Hamstrings, glutes and lower back',st:['Stand with the weights in front of your thighs.','Push your hips back with soft knees, sliding the weights down your legs.','Squeeze your glutes to stand tall again.'],mk:'Bending your knees too much. This is a hip hinge, not a squat.',t:1,a:[100,40,100,76,104,60,106,82,100,100,100,120],b:[135,68,88,84,140,86,138,104,94,102,94,120]},
+{n:'Biceps curl',g:'Arms',gear:['Dumbbells','Bands'],sr:'3 × 12',mu:'Biceps and forearms',st:['Stand tall with your elbows pinned to your sides.','Curl the weights up toward your shoulders.','Lower slowly without swinging.'],mk:'Swinging your torso. Lighten the weight.',t:1,a:[100,40,100,76,102,62,104,88,100,100,100,120],b:[100,40,100,76,102,62,118,50,100,100,100,120]}];
+function fig(m){function pa(p){return 'M'+p[0]+' '+p[1]+'L'+p[2]+' '+p[3]+'M'+p[0]+' '+p[1]+'L'+p[4]+' '+p[5]+'L'+p[6]+' '+p[7]+'M'+p[2]+' '+p[3]+'L'+p[8]+' '+p[9]+'L'+p[10]+' '+p[11]}
+function hd(p){return [p[0]+(p[0]-p[2])*.3,p[1]+(p[1]-p[3])*.3]}
+var a=m.a,b=m.b,ha=hd(a),hb=hd(b),T='dur="2.4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;.5;1" keySplines=".45 0 .25 1;.45 0 .25 1"';
+function an(t,x,y){return '<animate attributeName="'+t+'" values="'+x+';'+y+';'+x+'" '+T+'/>'}
+return '<svg class="fig" viewBox="0 0 200 130" style="width:100%;display:block"><line x1="10" y1="123" x2="190" y2="123" style="stroke:var(--line);stroke-width:3;stroke-linecap:round"/><path d="'+pa(a)+'">'+an('d',pa(a),pa(b))+'</path><circle class="h" r="10" cx="'+ha[0]+'" cy="'+ha[1]+'">'+an('cx',ha[0],hb[0])+an('cy',ha[1],hb[1])+'</circle>'+(m.t?'<circle r="6" fill="var(--b)" cx="'+a[6]+'" cy="'+a[7]+'">'+an('cx',a[6],b[6])+an('cy',a[7],b[7])+'</circle>':'')+'</svg>'}
+function lib(){var F=['All','Legs','Push','Pull','Glutes','Shoulders','Arms'],L=MV.map(function(m,i){m.i=i;return m}).filter(function(m){return (S.mf==='All'||m.g===S.mf)&&(!S.mine||m.gear.some(function(g){return S.eq.indexOf(g)>-1}))});
+return '<div class="chips" style="margin-bottom:10px">'+F.map(function(f){return '<button class="chip'+(S.mf===f?' on':'')+'" data-f="'+f+'">'+f+'</button>'}).join('')+'</div><button class="chip'+(S.mine?' on':'')+'" id="mine" style="margin-bottom:14px">Only my gear</button>'+(L.length?L.map(function(m,k){return '<div class="mc" data-i="'+m.i+'" style="animation-delay:'+k*.06+'s"><div class="fig-s">'+fig(m)+'</div><div style="flex:1"><b>'+m.n+'</b><div class="mut" style="margin:3px 0 7px">'+m.mu+'</div><span class="tag">'+m.g+'</span> <span class="tag">'+m.sr+'</span></div></div>'}).join(''):'<div class="card mut">Nothing matches your gear for this group yet. Add equipment above.</div>')}
+function toast(t){var d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.remove()},2000)}
+function move(i){var m=MV[i],o=document.createElement('div');o.className='ov s';
+o.innerHTML='<div class="sheet"><div style="display:flex;justify-content:space-between;align-items:center"><h1>'+m.n+'</h1><button class="chip" id="cl" aria-label="Close" style="padding:8px">'+ic('x')+'</button></div><div class="mut">'+m.mu+'</div><div class="stage">'+fig(m)+'</div><div class="chips"><span class="tag">'+m.g+'</span>'+m.gear.map(function(g){return '<span class="tag">'+g+'</span>'}).join('')+'</div><h2>How to do it</h2>'+m.st.map(function(t,k){return '<div class="tip"><div class="ico" style="background:var(--glow);color:var(--a);font-weight:800">'+(k+1)+'</div><div style="font-size:14px;line-height:1.45">'+t+'</div></div>'}).join('')+'<h2>Watch for</h2><div class="tip" style="border:0">'+chipIc('flame','b')+'<div style="font-size:14px;line-height:1.45">'+m.mk+'</div></div><h2>Track your sets</h2><div class="chips">'+[1,2,3].map(function(n){return '<button class="set">'+n+'</button>'}).join('')+'<span class="mut" style="align-self:center">Goal '+m.sr+'</span></div><button class="btn" id="addw" style="margin-top:18px">'+ic('plus')+'Add to today’s workout</button></div>';
+document.body.appendChild(o);o.onclick=function(e){if(e.target===o)o.remove()};o.querySelector('#cl').onclick=function(){o.remove()};
+o.querySelectorAll('.set').forEach(function(b){b.onclick=function(){b.classList.toggle('on')}});o.querySelector('#addw').onclick=function(){o.remove();toast('Added to today’s workout')}}
+function profSheet(){var o=document.createElement('div');o.className='ov s';
+o.innerHTML='<div class="sheet"><h1>Who’s training?</h1><p class="mut" style="margin:4px 0 14px">Tap a picture to switch. Each profile keeps its own goals, meals and trends.</p>'+PR.map(function(p,i){return '<div class="meal" style="border:0"><button class="av" data-i="'+i+'" aria-label="Switch to '+p.n+'" style="background:'+p.col+';outline:'+(i===S.u?'3px solid var(--ink)':'0')+';outline-offset:3px">'+ini(p.n)+'</button><input class="nm" value="'+p.n+'" data-i="'+i+'" maxlength="14" aria-label="Name"></div>'}).join('')+'<button class="btn" id="ok" style="margin-top:12px">Done</button></div>';
+document.body.appendChild(o);o.querySelectorAll('input').forEach(function(n){n.oninput=function(){PR[+n.dataset.i].n=n.value||'Me'}});
+o.querySelectorAll('button.av').forEach(function(b){b.onclick=function(){sw(+b.dataset.i);o.remove();render();toast('Switched to '+U().n)}});
+o.querySelector('#ok').onclick=function(){o.remove();render()};o.onclick=function(e){if(e.target===o){o.remove();render()}}}
+var T0=MV;
+function tp(st,mk,t,a,b,q){return {st:st,mk:mk,t:t,a:a,b:b,q:q}}
+var SD=[100,40,100,76,102,62,104,88,100,100,100,120],PL=[140,84,80,94,130,106,140,118,60,106,40,118];
+var TP={sq:T0[0],pu:T0[1],row:T0[2],lg:T0[3],br:T0[4],pr:T0[5],dl:T0[6],cu:T0[7]};
+TP.sq.q='Sit on an imaginary chair, then refuse the invitation.';TP.pu.q='The floor says hello. Push it away.';TP.row.q='Start the lawnmower, politely.';TP.lg.q='One giant step for glute-kind.';TP.br.q='Lift your hips, drop your worries.';TP.pr.q='Hand the ceiling something heavy.';TP.dl.q='Bow to your hamstrings.';TP.cu.q='Flex for the nearest mirror.';
+TP.cr=tp(['Lie back with knees bent, hands by your ears.','Lift your shoulders by curling ribs toward hips.','Lower slowly without yanking your neck.'],'Pulling on your head. Look at the ceiling.',0,[58,114,100,114,52,102,64,98,128,92,135,118],[82,90,100,114,76,84,88,78,128,92,135,118],'Abs: the muscles you hide on picture day.');
+TP.pl=tp(['Hands or forearms down, body in one straight line.','Brace your abs and squeeze your glutes.','Breathe slowly and hold.'],'Hips sagging or piking. Stay long.',0,PL,[140,82,80,92,130,106,140,118,60,104,40,118],'Doing nothing, but fiercely.');
+TP.mc=tp(['Start in a high plank.','Drive one knee toward your chest.','Switch quickly while keeping hips low.'],'Bouncing your hips up high.',0,PL,[140,84,80,94,130,106,140,118,118,98,112,116],'Running from your problems, sideways.');
+TP.ca=tp(['Stand tall, holding something steady if needed.','Rise onto your toes as high as you can.','Pause, then lower slowly.'],'Rolling to the outside of your feet.',0,SD,[100,34,100,70,102,56,104,82,100,94,100,114],'Reach the top shelf using only ankles.');
+TP.la=tp(['Stand tall with weights at your sides.','Raise your arms to shoulder height.','Lower slowly.'],'Shrugging toward your ears.',1,SD,[100,40,100,76,116,52,134,50,100,100,100,120],'Flap like a very strong bird.');
+TP.tr=tp(['Hold the weight overhead, elbows pointing up.','Bend your elbows to lower behind your head.','Straighten your arms to finish.'],'Flaring your elbows wide.',1,[100,40,100,76,104,22,94,36,100,100,100,120],[100,40,100,76,104,22,104,2,100,100,100,120],'Hands up if triceps are your favorite. Again.');
+TP.sw=tp(['Hinge back with the weight between your legs.','Snap your hips forward to stand tall.','Let the weight float to chest height.'],'Lifting with your arms. The hips do the work.',1,[130,66,90,84,128,86,118,104,94,102,94,120],[100,40,100,76,112,56,126,50,100,100,100,120],'Hips do not lie. They also launch kettlebells.');
+TP.ma=tp(['Stand tall and brace your abs.','Lift one knee to hip height.','Switch sides at a steady pace.'],'Leaning back. Stay tall.',0,SD,[100,40,100,76,102,62,104,88,120,80,114,100],'Marching, but nobody gave you a band.');
+TP.ki=tp(['Stand tall, using a wall for balance.','Move one leg back, squeezing your glute.','Return without swinging.'],'Arching your back to cheat the height.',0,SD,[100,40,100,76,102,62,104,88,92,100,72,94],'Politely kicking the past behind you.');
+TP.su=tp(['Lie face down, arms reaching forward.','Lift arms, chest and legs a few inches.','Hold one second, then lower.'],'Cranking your neck up. Keep it neutral.',0,[60,112,110,114,42,114,30,114,135,114,160,114],[60,98,110,108,42,96,30,90,138,104,165,98],'Flying, but face down and very tired.');
+TP.lr=tp(['Lie on your back, legs long.','Raise your legs together until vertical.','Lower slowly without arching.'],'Lower back lifting off the floor. Bend your knees.',0,[50,114,95,114,70,116,96,116,130,112,165,114],[50,114,95,114,70,116,96,116,96,80,96,48],'Slow-motion legs. Medium-motion regret.');
+TP.pu2=tp(['Hang from a bar or hold a band overhead.','Pull your elbows down toward your ribs.','Lower with control.'],'Swinging to get up. Stay still.',0,[100,60,100,96,100,34,100,8,100,112,100,122],[100,38,100,74,110,44,100,8,100,90,100,110],'Chin up. Literally.');
+TP.re=tp(['Stand tall and take a deep breath.','Reach both arms overhead and lean back slightly.','Hold and breathe slowly.'],'Holding your breath. Keep exhaling.',0,SD,[100,40,100,76,102,22,102,2,100,100,100,120],'Stretch like a cat that pays taxes.');
+TP.kb=tp(['Hinge forward with a flat back, elbow bent.','Straighten your arm behind you.','Return slowly.'],'Swinging the weight. Pin your upper arm.',1,[120,58,80,78,104,82,112,100,84,100,84,120],[120,58,80,78,104,82,84,84,84,100,84,120],'Politely punching backward.');
+TP.ws=tp(['Slide down a wall until your knees reach 90°.','Keep knees over ankles and heels down.','Hold, breathing steadily.'],'Hands pushing on your thighs.',0,T0[0].b,[112,56,86,90,122,68,124,60,118,95,104,120],'Sitting on nothing. Rude to your quads.');
+P.faith='<path d="M12 3v18M6 9h12"/><circle cx="12" cy="9" r="7" opacity=".35"/>';
+var GM={Legs:'Quads, hamstrings and glutes',Glutes:'Glutes and hamstrings',Push:'Chest, shoulders and triceps',Pull:'Back and biceps',Shoulders:'Shoulders and upper back',Arms:'Biceps and triceps',Core:'Abs and obliques',Cardio:'Heart, lungs and legs',Stretch:'Mobility and recovery'},GC={B:'Bodyweight',D:'Dumbbells',K:'Kettlebell',R:'Bands',M:'Gym machines',W:'Walking',T:'Treadmill',C:'Bike'};
+var EX=`Bodyweight squat|Legs|B|sq|3 × 15
+Goblet squat|Legs|DK|sq|3 × 10
+Sumo squat|Legs|DKB|sq|3 × 12
+Jump squat|Legs|B|sq|3 × 10|1
+Pause squat|Legs|B|sq|3 × 8
+Dumbbell front squat|Legs|D|sq|3 × 8
+Box squat|Legs|B|sq|3 × 10
+Leg press|Legs|M|sq|3 × 12
+Banded squat|Legs|R|sq|3 × 12
+Reverse lunge|Legs|BD|lg|3 × 8 each
+Forward lunge|Legs|BD|lg|3 × 8 each
+Walking lunge|Legs|BD|lg|3 × 10 each
+Split squat|Legs|BD|lg|3 × 8 each
+Bulgarian split squat|Legs|BD|lg|3 × 8 each
+Curtsy lunge|Legs|BD|lg|3 × 8 each
+Step-up|Legs|BD|lg|3 × 10 each
+Lateral lunge|Legs|BD|lg|3 × 8 each
+Calf raise|Legs|BD|ca|3 × 15
+Single-leg calf raise|Legs|B|ca|3 × 12 each
+Wall sit|Legs|B|ws|3 × 30 sec
+Leg extension|Legs|M|ki|3 × 12
+Leg curl|Legs|M|ki|3 × 12
+Banded lateral walk|Legs|R|ma|3 × 12 steps
+Glute bridge|Glutes|B|br|3 × 15
+Single-leg bridge|Glutes|B|br|3 × 10 each
+Hip thrust|Glutes|BD|br|3 × 12
+Banded bridge|Glutes|R|br|3 × 15
+Marching bridge|Glutes|B|br|3 × 10
+Romanian deadlift|Glutes|DK|dl|3 × 10
+Single-leg RDL|Glutes|DK|dl|3 × 8 each
+Stiff-leg deadlift|Glutes|D|dl|3 × 10
+Good morning|Glutes|BR|dl|3 × 12
+Deadlift|Glutes|DKM|dl|3 × 6
+Kettlebell swing|Glutes|K|sw|3 × 15
+Dumbbell swing|Glutes|D|sw|3 × 15
+Cable pull-through|Glutes|M|sw|3 × 12
+Donkey kick|Glutes|BR|ki|3 × 12 each
+Glute kickback|Glutes|BRM|ki|3 × 12 each
+Fire hydrant|Glutes|B|ki|3 × 12 each
+Push-up|Push|B|pu|3 × 10
+Incline push-up|Push|B|pu|3 × 12
+Knee push-up|Push|B|pu|3 × 10
+Wide push-up|Push|B|pu|3 × 10
+Diamond push-up|Push|B|pu|3 × 8
+Decline push-up|Push|B|pu|3 × 8
+Tempo push-up|Push|B|pu|3 × 6
+Pike push-up|Push|B|pu|3 × 8
+Dumbbell bench press|Push|D|pu|3 × 10
+Floor press|Push|D|pu|3 × 10
+Chest press machine|Push|M|pu|3 × 12
+Banded chest press|Push|R|pu|3 × 12
+Overhead press|Shoulders|DKR|pr|3 × 8
+Arnold press|Shoulders|D|pr|3 × 10
+Push press|Shoulders|DK|pr|3 × 8
+Kettlebell press|Shoulders|K|pr|3 × 8 each
+Banded press|Shoulders|R|pr|3 × 12
+Shoulder press machine|Shoulders|M|pr|3 × 10
+Lateral raise|Shoulders|DR|la|3 × 12
+Front raise|Shoulders|DR|la|3 × 12
+Banded lateral raise|Shoulders|R|la|3 × 15
+Rear delt raise|Shoulders|DR|row|3 × 12
+Face pull|Shoulders|RM|row|3 × 15
+Upright row|Shoulders|DK|cu|3 × 10
+Shrug|Shoulders|DK|ca|3 × 15
+Bent-over row|Pull|DR|row|3 × 10
+Single-arm row|Pull|DK|row|3 × 10 each
+Renegade row|Pull|D|row|3 × 6 each
+Banded row|Pull|R|row|3 × 15
+Seated cable row|Pull|M|row|3 × 12
+Inverted row|Pull|B|row|3 × 8
+Lat pulldown|Pull|M|pu2|3 × 10
+Pull-up|Pull|M|pu2|3 × 5
+Assisted pull-up|Pull|MR|pu2|3 × 8
+Banded pulldown|Pull|R|pu2|3 × 12
+Straight-arm pulldown|Pull|RM|pu2|3 × 12
+Biceps curl|Arms|DR|cu|3 × 12
+Hammer curl|Arms|D|cu|3 × 12
+Concentration curl|Arms|D|cu|3 × 10
+Banded curl|Arms|R|cu|3 × 15
+Cable curl|Arms|M|cu|3 × 12
+Overhead triceps extension|Arms|DK|tr|3 × 12
+Banded pushdown|Arms|R|tr|3 × 15
+Triceps kickback|Arms|D|kb|3 × 12
+Triceps dip|Arms|B|pu|3 × 10
+Close-grip push-up|Arms|B|pu|3 × 8
+Crunch|Core|B|cr|3 × 15
+Bicycle crunch|Core|B|cr|3 × 20
+Sit-up|Core|B|cr|3 × 12
+Russian twist|Core|BDK|cr|3 × 20
+Reverse crunch|Core|B|lr|3 × 12
+Leg raise|Core|B|lr|3 × 10
+Flutter kicks|Core|B|lr|3 × 30 sec
+Dead bug|Core|B|lr|3 × 8 each
+Plank|Core|B|pl|3 × 30 sec
+Forearm plank|Core|B|pl|3 × 30 sec
+Side plank|Core|B|pl|3 × 20 sec each
+Plank shoulder tap|Core|B|pl|3 × 10 each
+Mountain climber|Core|B|mc|3 × 20
+Bird dog|Core|B|su|3 × 8 each
+Superman|Core|B|su|3 × 12
+Woodchop|Core|DRK|sw|3 × 10 each
+Pallof press|Core|R|pr|3 × 10 each
+High knees|Cardio|B|ma|3 × 30 sec|1
+March in place|Cardio|BW|ma|3 × 1 min
+Jumping jacks|Cardio|B|re|3 × 30 sec|1
+Burpee|Cardio|B|sq|3 × 8|1
+Skater hops|Cardio|B|lg|3 × 20|1
+Butt kicks|Cardio|B|ki|3 × 30 sec|1
+Brisk walk|Cardio|WT|ma|30 min
+Incline treadmill walk|Cardio|T|ma|20 min
+Easy jog|Cardio|T|ma|20 min
+Stationary bike|Cardio|C|ma|25 min
+Stair climb|Cardio|B|ma|10 min
+Shadow boxing|Cardio|B|pr|3 × 1 min
+Overhead reach|Stretch|B|re|2 × 30 sec
+Standing side stretch|Stretch|B|re|2 × 30 sec
+Chest opener|Stretch|B|re|2 × 30 sec
+Quad stretch|Stretch|B|ki|2 × 30 sec each
+Hamstring stretch|Stretch|B|dl|2 × 30 sec
+Child’s pose|Stretch|B|dl|2 × 30 sec
+Hip flexor stretch|Stretch|B|lg|2 × 30 sec each
+Cat-cow|Stretch|B|su|2 × 10`;
+MV=EX.split('\n').map(function(l){var f=l.trim().split('|'),t=TP[f[3]];return {n:f[0],g:f[1],gear:f[2].split('').map(function(c){return GC[c]}),sr:f[4],mu:GM[f[1]],st:t.st,mk:t.mk,t:t.t,a:t.a,b:t.b,q:t.q,j:f[5]==='1'}});
+function fig(m,off){function pa(p){return 'M'+p[0]+' '+p[1]+'L'+p[2]+' '+p[3]+'M'+p[0]+' '+p[1]+'L'+p[4]+' '+p[5]+'L'+p[6]+' '+p[7]+'M'+p[2]+' '+p[3]+'L'+p[8]+' '+p[9]+'L'+p[10]+' '+p[11]}
+function hd(p){return [p[0]+(p[0]-p[2])*.3,p[1]+(p[1]-p[3])*.3]}
+var a=m.a,b=m.b,ha=hd(a),hb=hd(b),T='dur="'+(m.j?1.2:2.4)+'s" repeatCount="indefinite" calcMode="spline" keyTimes="0;.5;1" keySplines=".45 0 .25 1;.45 0 .25 1"';
+function an(t,x,y){return off?'':'<animate attributeName="'+t+'" values="'+x+';'+y+';'+x+'" '+T+'/>'}
+return '<svg class="fig" viewBox="0 0 200 130" style="width:100%;display:block"><line x1="10" y1="123" x2="190" y2="123" style="stroke:var(--line);stroke-width:3;stroke-linecap:round"/><g>'+(m.j&&!off?'<animateTransform attributeName="transform" type="translate" values="0 0;0 -14;0 0" '+T+'/>':'')+'<path d="'+pa(a)+'">'+an('d',pa(a),pa(b))+'</path><circle class="h" r="10" cx="'+ha[0]+'" cy="'+ha[1]+'">'+an('cx',ha[0],hb[0])+an('cy',ha[1],hb[1])+'</circle>'+(m.t?'<circle r="6" fill="var(--b)" cx="'+a[6]+'" cy="'+a[7]+'">'+an('cx',a[6],b[6])+an('cy',a[7],b[7])+'</circle>':'')+'</g></svg>'}
+function qf(v){v=v.toLowerCase();document.querySelectorAll('.mc').forEach(function(c){c.style.display=c.dataset.n.indexOf(v)>-1?'':'none'})}
+function lib(){var F=['All','Legs','Glutes','Push','Pull','Shoulders','Arms','Core','Cardio','Stretch'],L=MV.map(function(m,i){m.i=i;return m}).filter(function(m){return (S.mf==='All'||m.g===S.mf)&&(!S.mine||m.gear.some(function(g){return S.eq.indexOf(g)>-1}))});
+return '<input class="nm" style="width:100%;margin-bottom:12px" placeholder="Search '+MV.length+' moves" oninput="qf(this.value)" aria-label="Search moves"><div class="chips" style="margin-bottom:10px">'+F.map(function(f){return '<button class="chip'+(S.mf===f?' on':'')+'" data-f="'+f+'">'+f+'</button>'}).join('')+'</div><button class="chip'+(S.mine?' on':'')+'" id="mine" style="margin-bottom:12px">Only my gear</button><p class="mut" style="margin-bottom:8px">'+L.length+' moves</p>'+(L.length?L.map(function(m,k){return '<div class="mc" data-i="'+m.i+'" data-n="'+m.n.toLowerCase()+'" style="animation-delay:'+Math.min(k,10)*.05+'s"><div class="fig-s">'+fig(m,L.length>12)+'</div><div style="flex:1"><b>'+m.n+'</b><div class="mut" style="margin:3px 0 7px">'+m.mu+'</div><span class="tag">'+m.g+'</span> <span class="tag">'+m.sr+'</span></div></div>'}).join(''):'<div class="card mut">Nothing matches your gear for this group yet. Add equipment above.</div>')}
+var mv0=move;move=function(i){mv0(i);var s=document.querySelector('.sheet .stage'),q=MV[i].q;if(s&&q)s.insertAdjacentHTML('afterend','<p class="mut" style="font-style:italic;margin-bottom:6px">'+q+'</p>')};
+var DV=[['Care for the temple','1 Corinthians 6:20','Therefore glorify God in your body, and in your spirit, which are God’s.','Every walk, every glass of water and every honest meal is a way of looking after something entrusted to you. This is not about the number on the scale. It is stewardship. A temple is not kept clean to earn love, but because it is a place of worship. Treat your movement today as quiet worship.','Lord, help me care for this body as a gift, not a project.','Walk 10 minutes and thank God for one thing every block.'],
+['Strength not my own','Philippians 4:13','I can do all things through Christ which strengtheneth me.','Some days your legs feel heavy and your motivation is gone. That is exactly where this verse lives. It does not promise easy workouts. It promises a source of strength bigger than your mood. Start small, and let God supply the rest.','Father, be my strength when mine runs out.','Do one extra set today and offer it up as thanks.'],
+['Small steps count','Zechariah 4:10','For who hath despised the day of small things?','Fifty pounds was never lost in one day. It was lost in ordinary choices: a walk, a swap, a no thank you. God is not impressed by drama. He is pleased by faithfulness in small things. Do not despise today’s small win.','God, make me faithful in little things.','Park farther away or take the stairs, and call it worship.'],
+['Run with endurance','Hebrews 12:1','Let us run with patience the race that is set before us.','Notice that the race is set before you. It is not a sprint to a photo finish. It is a long road with water stops, rest days and hills. Patience is a training plan. Keep your pace, and keep your eyes up.','Lord, give me patience for the long road.','Do a steady 20-minute walk. Keep the pace easy enough to pray.'],
+['Rest is holy','Psalm 127:2','It is vain for you to rise up early, to sit up late, to eat the bread of sorrows: for so he giveth his beloved sleep.','Rest is not laziness. It is trust. When you sleep, your muscles repair, your hormones reset and your heart is reminded that God runs the world without your help. Protect tonight’s sleep like you protect your workout.','Father, teach me to rest in You.','Lights out by 10:30 pm. Put the phone across the room.'],
+['Eat with gratitude','1 Corinthians 10:31','Whether therefore ye eat, or drink, or whatsoever ye do, do all to the glory of God.','Food is not the enemy, and it is not the comforter either. It is a gift to thank God for. Slow down, say grace, and notice when you are satisfied. Gratitude is the best portion control there is.','Lord, thank You for this food. Help me eat with joy and self-control.','Pause for a sentence of thanks before every meal today.'],
+['Renewed strength','Isaiah 40:31','But they that wait upon the Lord shall renew their strength; they shall run, and not be weary; and they shall walk, and not faint.','Waiting is part of training. Recovery days, slow progress and plateaus are not wasted time. God renews those who wait on Him. Your body adapts in the rest, and your spirit does too.','God, renew me where I am tired.','Stretch for 5 minutes and breathe slowly.'],
+['Iron sharpens iron','Proverbs 27:17','Iron sharpeneth iron; so a man sharpeneth the countenance of his friend.','Doing this journey together is a gift. You notice when the other is discouraged and you celebrate when they win. Marriage and friendship make the best training partners. Encourage someone today.','Lord, bless the one who walks beside me.','Take a walk together and share one goal for the week.'],
+['Self-control is fruit','Galatians 5:22','But the fruit of the Spirit is love, joy, peace, longsuffering, gentleness, goodness, faith, meekness, temperance.','Temperance means self-control, and it is listed as fruit, not as a result of willpower alone. Fruit grows with time, sun and the right roots. Stay close to the Source, and the discipline grows.','Spirit, grow Your fruit in me.','Choose one thing today to say no to, and thank God for the yes behind it.'],
+['Get back up','Proverbs 24:16','For a just man falleth seven times, and riseth up again.','You will miss a workout. You will eat the cake. The point of this verse is not that you never fall, but that you get back up. Grace does not mean giving up on the goal. It means the next step is always available.','Father, thank You for new mercies each morning.','Do a 10-minute reset workout, no guilt allowed.']];
+var DI=new Date().getDate()%DV.length,AM={};
+function faith(){var d=DV[DI],dw=new Date().getDay(),ok=AM[DI];
+return head('Faith','Strong body, steady heart')+'<div class="card verse"><span class="tag" style="background:rgba(255,255,255,.2);color:#fff">Today’s devotion</span><h1 style="margin:10px 0 6px">'+d[0]+'</h1><p>“'+d[2]+'”</p><small>'+d[1]+'</small></div>'+
+'<div class="card"><p style="font-size:15px;line-height:1.6">'+d[3]+'</p><div class="pray">'+d[4]+'</div><div class="tip" style="border:0;padding-bottom:0">'+chipIc('foot','a')+'<div><b>Move with purpose</b><div class="mut" style="margin-top:2px">'+d[5]+'</div></div></div><button class="btn'+(ok?' amen':'')+'" style="margin-top:14px" onclick="amen()">'+ic(ok?'heart':'plus')+(ok?'Amen. Done for today':'Mark as read and done')+'</button></div>'+
+'<div class="card"><b>This week</b><div style="display:flex;justify-content:space-between;margin:12px 0">'+['S','M','T','W','T','F','S'].map(function(l,i){return '<div class="dot'+((i<dw||(i===dw&&ok))?' on':'')+'">'+l+'</div>'}).join('')+'</div><div class="bar"><i data-w="'+Math.min(100,(dw+(ok?1:0))/7*100)+'" style="background:linear-gradient(90deg,var(--a),var(--c))"></i></div></div>'+
+'<h2>More devotionals</h2><div class="card">'+DV.map(function(x,i){return '<div class="tip" style="cursor:pointer" onclick="dvp('+i+')">'+chipIc('book',['a','b','c','d'][i%4])+'<div style="flex:1"><b>'+x[0]+'</b><div class="mut">'+x[1]+'</div></div>'+(AM[i]?ic('heart','var(--a)'):'')+'</div>'}).join('')+'</div>'}
+function amen(){AM[DI]=!AM[DI];render();if(AM[DI])toast('Amen')}
+function dvp(i){DI=i;render();window.scrollTo(0,0)}
+function render(){var v={home:home,fuel:fuel,body:body,train:train,ai:coach,faith:faith}[S.tab]();document.getElementById('app').innerHTML=v;
+document.getElementById('nav').innerHTML=TABS.map(function(t){return '<button class="'+(S.tab===t[0]?'on':'')+'" data-t="'+t[0]+'">'+ic(t[0])+t[1]+'</button>'}).join('');bind();requestAnimationFrame(function(){requestAnimationFrame(anim)})}
+function anim(){document.querySelectorAll('.pg').forEach(function(e){var c=+e.dataset.c;e.style.strokeDashoffset=c*(1-Math.min(1,+e.dataset.p))});
+document.querySelectorAll('[data-w]:not(.chip)').forEach(function(e){e.style.width=e.dataset.w+'%'});
+document.querySelectorAll('.stages i').forEach(function(e,i){setTimeout(function(){e.style.height=e.dataset.h+'px'},i*90)});
+document.querySelectorAll('[data-n]').forEach(function(e){var t=+e.dataset.n,s=performance.now();(function f(n){var k=Math.min(1,(n-s)/1300);e.textContent=Math.round(t*(1-Math.pow(1-k,3))).toLocaleString();if(k<1)requestAnimationFrame(f)})(s)})}
+function bind(){document.querySelectorAll('nav button').forEach(function(b){b.onclick=function(){S.tab=b.dataset.t;render();window.scrollTo(0,0)}});
+document.querySelectorAll('#water .chip').forEach(function(b){b.onclick=function(){S.water=+b.dataset.w;render()}});
+document.querySelectorAll('#eq .chip').forEach(function(b){b.onclick=function(){var k=S.eq.indexOf(b.textContent);k>-1?S.eq.splice(k,1):S.eq.push(b.textContent);b.classList.toggle('on')}});
+var s=document.getElementById('scanBtn');if(s)s.onclick=scan;document.getElementById('pf').onclick=profSheet;document.querySelectorAll('[data-f]').forEach(function(b){b.onclick=function(){S.mf=b.dataset.f;render()}});var mi=document.getElementById('mine');if(mi)mi.onclick=function(){S.mine=!S.mine;render()};document.querySelectorAll('.mc').forEach(function(c){c.onclick=function(){move(+c.dataset.i)}});
+var l=document.getElementById('logW');if(l)l.onclick=function(){l.innerHTML=ic('flame')+'Logged. Keep going!'}}
+function scan(){var o=document.createElement('div');o.className='ov';o.innerHTML='<div><div class="cam"><div class="plate">🥗</div><div class="corner" style="left:14px;top:14px;border-right:0;border-bottom:0"></div><div class="corner" style="right:14px;top:14px;border-left:0;border-bottom:0"></div><div class="corner" style="left:14px;bottom:14px;border-right:0;border-top:0"></div><div class="corner" style="right:14px;bottom:14px;border-left:0;border-top:0"></div><div class="scan" id="sl"></div></div><p style="color:#fff;text-align:center;margin-top:12px" id="st">Identifying food…</p></div>';document.body.appendChild(o);
+setTimeout(function(){document.getElementById('sl').remove();document.getElementById('st').outerHTML='<div class="res"><b>Chicken salad bowl</b><div class="mut">Estimated portion 380 g · 92% match</div><div class="row" style="margin:12px 0"><div><div class="mut">Calories</div><div class="big">460</div></div><div><div class="mut">P / C / F</div><div class="big" style="font-size:18px">38 / 32 / 18 g</div></div></div><button class="btn" id="add">'+ic('plus')+'Add to lunch</button></div>';
+document.getElementById('add').onclick=function(){S.cal+=460;S.pro+=38;S.carb+=32;S.fat+=18;S.meals.push(['Chicken salad bowl','Just now',460,'cam','a']);o.remove();render()}},2600);
+o.onclick=function(e){if(e.target===o)o.remove()}}
+setInterval(function(){var p=document.getElementById('vp');if(!p)return;p.style.opacity=0;setTimeout(function(){S.vi=(S.vi+1)%V.length;var v=V[S.vi];p.textContent='“'+v[0]+'”';document.getElementById('vr').textContent=v[1];p.style.opacity=1},500)},8000);
+render();
+</script>
+</body>
+</html>
