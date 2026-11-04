@@ -2,5 +2,6 @@
   "appId": "com.temple.fitness",
   "appName": "Temple",
   "webDir": "www",
-  "android": { "allowMixedContent": false }
+  "android": { "allowMixedContent": false },
+  "plugins": { "CapacitorHttp": { "enabled": true } }
 }
