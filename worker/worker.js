@@ -34,10 +34,10 @@ export default {
       if (req.headers.get('X-Temple-Key') !== env.APP_SECRET) return new Response('Unauthorized', { status: 401, headers: CORS });
       const { image } = await req.json();
       const body = { contents: [{ parts: [{ text: PROMPT }, { inline_data: { mime_type: 'image/jpeg', data: image } }] }], generationConfig: { responseMimeType: 'application/json' } };
-      const g = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + (env.GEMINI_MODEL || 'gemini-2.5-flash') + ':generateContent', {
+      const g = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + (env.GEMINI_MODEL || 'gemini-flash-latest') + ':generateContent', {
         method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY }, body: JSON.stringify(body)
       });
-      if (!g.ok) return new Response('Scan failed', { status: 502, headers: CORS });
+      if (!g.ok) return new Response('Gemini error ' + g.status + ': ' + (await g.text()).slice(0, 200), { status: 502, headers: CORS });
       const j = await g.json();
       const txt = (j.candidates && j.candidates[0] && j.candidates[0].content.parts[0].text) || '{}';
       return new Response(txt, { headers: { ...CORS, 'Content-Type': 'application/json' } });
