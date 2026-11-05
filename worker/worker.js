@@ -10,14 +10,15 @@ function page(m) {
 export default {
   async fetch(req, env) {
     const u = new URL(req.url);
+    const path = u.pathname.replace(/\/{2,}/g, '/');
     if (req.method === 'OPTIONS') return new Response(null, { headers: CORS });
 
-    if (u.pathname === '/auth/start') {
+    if (path === '/auth/start') {
       const q = new URLSearchParams({ client_id: env.CLIENT_ID, redirect_uri: u.origin + '/auth/callback', response_type: 'code', access_type: 'offline', prompt: 'consent', scope: SCOPES, state: u.searchParams.get('u') === '1' ? '1' : '0' });
       return Response.redirect('https://accounts.google.com/o/oauth2/v2/auth?' + q, 302);
     }
 
-    if (u.pathname === '/auth/callback') {
+    if (path === '/auth/callback') {
       const code = u.searchParams.get('code');
       if (!code) return page('Sign-in was cancelled.');
       const t = await (await fetch('https://oauth2.googleapis.com/token', {
@@ -30,7 +31,7 @@ export default {
       return page(r.ok ? 'Connected. You can return to Temple.' : 'Signed in, but no Google Health profile is linked yet. Finish setting up the watch in the Google Health app, then try again.');
     }
 
-    if (u.pathname === '/scan' && req.method === 'POST') {
+    if (path === '/scan' && req.method === 'POST') {
       if (req.headers.get('X-Temple-Key') !== env.APP_SECRET) return new Response('Unauthorized', { status: 401, headers: CORS });
       const { image } = await req.json();
       const body = { contents: [{ parts: [{ text: PROMPT }, { inline_data: { mime_type: 'image/jpeg', data: image } }] }], generationConfig: { responseMimeType: 'application/json' } };
