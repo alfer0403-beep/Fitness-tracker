@@ -31,13 +31,43 @@ export default {
       return page(r.ok ? 'Connected. You can return to Temple.' : 'Signed in, but no Google Health profile is linked yet. Finish setting up the watch in the Google Health app, then try again.');
     }
 
+    if (path === '/data') {
+      if (req.headers.get('X-Temple-Key') !== env.APP_SECRET) return new Response('Unauthorized', { status: 401, headers: CORS });
+      const who = u.searchParams.get('u') === '1' ? '1' : '0';
+      const rt = env.TOKENS && await env.TOKENS.get('rt:' + who);
+      if (!rt) return new Response('Not connected yet', { status: 404, headers: CORS });
+      const t = await (await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ client_id: env.CLIENT_ID, client_secret: env.CLIENT_SECRET, refresh_token: rt, grant_type: 'refresh_token' })
+      })).json();
+      if (!t.access_token) return new Response('Sign-in expired. Connect Google Health again.', { status: 401, headers: CORS });
+      const y = +u.searchParams.get('y'), m = +u.searchParams.get('m'), d = +u.searchParams.get('d');
+      if (!y || !m || !d) return new Response('Bad date', { status: 400, headers: CORS });
+      const s = new Date(Date.UTC(y, m - 1, d - 6));
+      const body = { range: { start: { date: { year: s.getUTCFullYear(), month: s.getUTCMonth() + 1, day: s.getUTCDate() }, time: { hours: 0, minutes: 0, seconds: 0, nanos: 0 } }, end: { date: { year: y, month: m, day: d }, time: { hours: 23, minutes: 59, seconds: 59, nanos: 0 } } }, windowSizeDays: 1, dataSourceFamily: 'users/me/dataSourceFamilies/google-wearables' };
+      const r = await fetch('https://health.googleapis.com/v4/users/me/dataTypes/steps/dataPoints:dailyRollUp', { method: 'POST', headers: { Authorization: 'Bearer ' + t.access_token, 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body) });
+      if (!r.ok) return new Response('Google ' + r.status + ': ' + (await r.text()).slice(0, 200), { status: 502, headers: CORS });
+      const j = await r.json();
+      const days = (j.rollupDataPoints || []).filter(p => p.steps).map(p => { const c = p.civilStartTime.date; return { date: c.year + '-' + String(c.month).padStart(2, '0') + '-' + String(c.day).padStart(2, '0'), steps: parseInt(p.steps.countSum, 10) || 0 }; });
+      return new Response(JSON.stringify({ days }), { headers: { ...CORS, 'Content-Type': 'application/json' } });
+    }
+
     if (path === '/scan' && req.method === 'POST') {
       if (req.headers.get('X-Temple-Key') !== env.APP_SECRET) return new Response('Unauthorized', { status: 401, headers: CORS });
       const { image } = await req.json();
       const body = { contents: [{ parts: [{ text: PROMPT }, { inline_data: { mime_type: 'image/jpeg', data: image } }] }], generationConfig: { responseMimeType: 'application/json' } };
-      const g = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + (env.GEMINI_MODEL || 'gemini-flash-latest') + ':generateContent', {
-        method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY }, body: JSON.stringify(body)
-      });
+      let g;
+      const models = [env.GEMINI_MODEL || 'gemini-flash-latest', 'gemini-flash-lite-latest'];
+      for (const m of models) {
+        for (let i = 0; i < 2; i++) {
+          g = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + m + ':generateContent', {
+            method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY }, body: JSON.stringify(body)
+          });
+          if (g.ok || ![429, 500, 503].includes(g.status)) break;
+          await new Promise(r => setTimeout(r, 1200));
+        }
+        if (g.ok) break;
+      }
       if (!g.ok) return new Response('Gemini error ' + g.status + ': ' + (await g.text()).slice(0, 200), { status: 502, headers: CORS });
       const j = await g.json();
       const txt = (j.candidates && j.candidates[0] && j.candidates[0].content.parts[0].text) || '{}';
